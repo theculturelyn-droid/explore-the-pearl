@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Pearl Guide | Discover Uganda</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        
+        /* Ensure normal smooth scrolling on mobile body */
+        html, body { background-color: #fcfcfc; color: #111827; width: 100%; min-height: 100vh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+        
+        /* Modern Minimal Header */
+        header { background-color: #ffffff; border-bottom: 1px solid #e5e7eb; padding: 14px 20px; position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
+        .logo-area h1 { font-size: 18px; font-weight: 800; color: #0f172a; letter-spacing: -0.5px; }
+        .logo-area span { color: #059669; }
+        .nav-actions { display: flex; gap: 14px; font-size: 12px; font-weight: 600; color: #374151; align-items: center; }
+        .nav-btn { background: none; border: none; font-size: 12px; font-weight: 600; cursor: pointer; color: #374151; }
+
+        /* Sticky Search & Filter Hub */
+        .explore-section { background-color: rgba(252, 252, 252, 0.95); backdrop-filter: blur(8px); padding: 14px 20px; max-width: 600px; margin: 0 auto; width: 100%; position: sticky; top: 51px; z-index: 90; border-bottom: 1px solid #e5e7eb; }
+        
+        .search-box { position: relative; margin-bottom: 10px; }
+        .search-box input { width: 100%; padding: 12px 16px 12px 40px; background-color: #ffffff; border: 1px solid #d1d5db; border-radius: 12px; color: #111827; font-size: 13px; outline: none; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .search-box input:focus { border-color: #059669; box-shadow: 0 0 0 3px rgba(5,150,105,0.1); }
+        .search-icon { position: absolute; left: 14px; top: 13px; font-size: 14px; }
+
+        /* Filter Categories */
+        .categories { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
+        .categories::-webkit-scrollbar { display: none; }
+        .cat-btn { background-color: #ffffff; color: #4b5563; border: 1px solid #d1d5db; padding: 6px 14px; border-radius: 20px; font-size: 11px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all 0.2s; flex-shrink: 0; }
+        .cat-btn.active { background-color: #111827; color: white; border-color: #111827; }
+
+        /* Cinematic Hero Section */
+        .hero { background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%), url('https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1000&q=80') center/cover; padding: 60px 20px 40px 20px; color: white; display: flex; flex-direction: column; justify-content: flex-end; min-height: 380px; }
+        .hero-badge { background-color: #059669; color: white; font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; width: fit-content; margin-bottom: 10px; letter-spacing: 0.5px; }
+        .hero h2 { font-size: 30px; font-weight: 800; line-height: 1.1; letter-spacing: -1px; margin-bottom: 6px; }
+        .hero p { font-size: 13px; color: #f3f4f6; line-height: 1.5; max-width: 360px; font-weight: 400; }
+
+        /* Scrollable Feed Container */
+        main { padding: 20px; max-width: 600px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 20px; }
+
+        /* Magazine Cards */
+        .card { background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; flex-direction: column; }
+        .card-img-container { height: 210px; background-color: #e5e7eb; position: relative; }
+        .card-img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .card-tag { position: absolute; top: 14px; left: 14px; background: rgba(17, 24, 39, 0.85); backdrop-filter: blur(4px); color: white; font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 5px 10px; border-radius: 6px; letter-spacing: 0.5px; }
+        
+        .card-content { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+        .card-location { font-size: 11px; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 0.5px; }
+        .card-content h3 { font-size: 18px; font-weight: 800; color: #111827; letter-spacing: -0.3px; }
+        .card-content p { font-size: 13px; color: #4b5563; line-height: 1.5; }
+
+        /* Real Cost & Logistics Box */
+        .logistics-box { background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-top: 4px; display: flex; flex-direction: column; gap: 6px; font-size: 11px; }
+        .logistics-row { display: flex; justify-content: space-between; align-items: center; color: #334155; }
+        .logistics-row span:last-child { font-weight: 700; color: #0f172a; }
+
+        .highlights { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+        .pill { background-color: #f1f5f9; color: #334155; font-size: 11px; font-weight: 500; padding: 4px 8px; border-radius: 6px; }
+
+        /* Editorial Spotlight Cards */
+        .editorial-spotlight { background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1609137144843-24151f2427a2?auto=format&fit=crop&w=800&q=80') center/cover; border-radius: 20px; padding: 28px 20px; color: white; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .editorial-spotlight span { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #34d399; }
+        .editorial-spotlight h3 { font-size: 20px; font-weight: 800; line-height: 1.2; }
+        .editorial-spotlight p { font-size: 12px; color: #e5e7eb; line-height: 1.5; }
+        .editorial-btn { background-color: white; color: #111827; border: none; padding: 10px 16px; border-radius: 10px; font-size: 12px; font-weight: 700; width: fit-content; cursor: pointer; margin-top: 4px; }
+
+        .card-footer { display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: #9ca3af; border-top: 1px solid #f3f4f6; padding-top: 12px; margin-top: 4px; }
+        .verified { color: #059669; font-weight: 600; }
+
+        /* Footer */
+        footer { background-color: #0f172a; color: #94a3b8; text-align: center; padding: 40px 20px; font-size: 12px; margin-top: auto; display: flex; flex-direction: column; gap: 8px; }
+        footer p:first-child { color: white; font-weight: 700; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo-area">
+            <h1>The Pearl <span>Guide</span></h1>
+        </div>
+        <div class="nav-actions">
+            <button class="nav-btn">🔍 Search</button>
+            <button class="nav-btn">☰ Menu</button>
+        </div>
+    </header>
+
+    <!-- Sticky Search & Filter Hub -->
+    <div class="explore-section">
+        <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" onkeyup="filterFeed()" placeholder="Search parks, wildlife, costs, routes...">
+        </div>
+        <div class="categories">
+            <button onclick="filterCategory('all')" id="btn-all" class="cat-btn active">All Destinations</button>
+            <button onclick="filterCategory('Wildlife')" id="btn-Wildlife" class="cat-btn">🦁 Savannah</button>
+            <button onclick="filterCategory('Gorillas')" id="btn-Gorillas" class="cat-btn">🦍 Primates</button>
+            <button onclick="filterCategory('Scenic')" id="btn-Scenic" class="cat-btn">🌊 Water & Scenery</button>
+        </div>
+    </div>
+
+    <!-- Cinematic Hero -->
+    <section class="hero">
+        <span class="hero-badge">Discover Uganda</span>
+        <h2>Make Life An Adventure</h2>
+        <p>Explore breathtaking wilderness, misty rainforests, and world-class wildlife reserves across the Pearl of Africa.</p>
+    </section>
+
+    <!-- Scrollable Endless Feed Container -->
+    <main id="feedContainer">
+        <!-- Rendered via JS -->
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>The Pearl Guide &bull; Official Digital Tourism Directory</p>
+        <p>Verified authoritatively via Uganda Wildlife Authority standards.</p>
+    </footer>
+
+    <script>
+        const feedData = [
+            {
+                type: "Scenic",
+                name: "Murchison Falls National Park",
+                category: "Scenic",
+                tagline: "Home of the world's most powerful waterfall and sweeping savannah landscapes.",
+                highlights: ["The mighty Murchison Falls", "Nile boat cruises", "Lions & giraffes"],
+                region: "North-Western Uganda",
+                entryCost: "UGX 30,000 (Citizen)",
+                carCost: "UGX 30,000",
+                transportTip: "Bus from Kampala to Masaka/Pakwach or private 4x4 via Karuma.",
+                source: "Uganda Wildlife Authority",
+                verifiedDate: "October 2026",
+                image: "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=700&q=80"
+            },
+            {
+                type: "Spotlight",
+                title: "Gorilla Trekking in Bwindi Impenetrable Forest",
+                tagline: "Journey deep into an ancient, misty UNESCO World Heritage rainforest to encounter endangered mountain gorillas in their natural habitat.",
+                image: "https://images.unsplash.com/photo-1609137144843-24151f2427a2?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                type: "Wildlife",
+                name: "Queen Elizabeth National Park",
+                category: "Wildlife",
+                tagline: "Uganda's premier gateway for diverse wildlife and scenic crater lakes.",
+                highlights: ["Tree-climbing lions", "Kazinga Channel safari", "Chimpanzee tracking"],
+                region: "Western Uganda",
+                entryCost: "UGX 30,000 (Citizen)",
+                carCost: "UGX 30,000",
+                transportTip: "Direct highway via Mbarara-Kasese or public bus to Katunguru.",
+                source: "Uganda Wildlife Authority",
+                verifiedDate: "October 2026",
+                image: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?auto=format&fit=crop&w=700&q=80"
+            },
+            {
+                type: "Gorillas",
+                name: "Bwindi Impenetrable National Park",
+                category: "Gorillas",
+                tagline: "An ancient, misty rainforest hosting half of the world's mountain gorillas.",
+                highlights: ["Mountain gorilla trekking", "Bird watching", "Forest walks"],
+                region: "South-Western Uganda",
+                entryCost: "UGX 30,000 (Citizen)",
+                carCost: "UGX 30,000",
+                transportTip: "Kabale/Kisoro bus from Kampala, then local taxi hire to park gate.",
+                source: "Uganda Wildlife Authority",
+                verifiedDate: "October 2026",
+                image: "https://images.unsplash.com/photo-1609137144843-24151f2427a2?auto=format&fit=crop&w=700&q=80"
+            },
+            {
+                type: "Spotlight",
+                title: "Chimpanzee Tracking in Kibale Forest",
+                tagline: "Explore the primate capital of the world with 13 distinct primate species roaming the lush tropical canopies.",
+                image: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                type: "Gorillas",
+                name: "Kibale National Park",
+                category: "Gorillas",
+                tagline: "The Primate Capital of the World, boasting 13 distinct primate species.",
+                highlights: ["Chimpanzee habituation", "Night forest walks", "Bigodi wetlands"],
+                region: "Western Uganda",
+                entryCost: "UGX 30,000 (Citizen)",
+                carCost: "UGX 30,000",
+                transportTip: "Fort Portal bus from Kampala, then boda/taxi to Kanyanchu.",
+                source: "Uganda Wildlife Authority",
+                verifiedDate: "October 2026",
+                image: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=700&q=80"
+            },
+            {
+                type: "Wildlife",
+                name: "Kidepo Valley National Park",
+                category: "Wildlife",
+                tagline: "A remote, rugged wilderness tucked away in the dramatic northeastern frontier.",
+                highlights: ["Narus Valley game viewing", "Hot springs", "Mountain views"],
+                region: "North-Eastern Uganda",
+                entryCost: "UGX 30,000 (Citizen)",
+                carCost: "UGX 30,000",
+                transportTip: "Long-distance bus to Kitgum/Moroto; 4x4 vehicle strictly required.",
+                source: "Uganda Wildlife Authority",
+                verifiedDate: "October 2026",
+                image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=700&q=80"
+            },
+            {
+                type: "Wildlife",
+                name: "Lake Mburo National Park",
+                category: "Wildlife",
+                tagline: "The most accessible savannah park featuring pristine lakes and rolling valleys.",
+                highlights: ["Zebras & impalas", "Lake Mburo boat trips", "Walking safaris"],
+                region: "Western Uganda",
+                entryCost: "UGX 30,000 (Citizen)",
+                carCost: "UGX 30,000",
+                transportTip: "Mbarara highway bus, stop at Sanga gate or Akageti junction.",
+                source: "Uganda Wildlife Authority",
+                verifiedDate: "October 2026",
+                image: "https://images.unsplash.com/photo-1517760444937-f6397edcbbcd?auto=format&fit=crop&w=700&q=80"
+            }
+        ];
+
+        function renderFeed(items) {
+            const container = document.getElementById('feedContainer');
+            container.innerHTML = '';
+
+            if (items.length === 0) {
+                container.innerHTML = `<div style="text-align:center; padding:40px; font-size:13px; color:#6b7280;">No destinations found matching your search.</div>`;
+                return;
+            }
+
+            items.forEach(item => {
+                if (item.type === 'Spotlight') {
+                    let spotlight = document.createElement('div');
+                    spotlight.className = "editorial-spotlight";
+                    spotlight.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85)), url('${item.image}')`;
+                    spotlight.innerHTML = `
+                        <span>Conservation Spotlight</span>
+                        <h3>${item.title}</h3>
+                        <p>${item.tagline}</p>
+                        <button class="editorial-btn">Explore More &rarr;</button>
+                    `;
+                    container.appendChild(spotlight);
+                } else {
+                    let highlightsHtml = item.highlights.map(h => `<span class="pill">${h}</span>`).join('');
+                    
+                    let card = document.createElement('div');
+                    card.className = "card";
+                    card.innerHTML = `
+                        <div class="card-img-container">
+                            <span class="card-tag">${item.category}</span>
+                            <img src="${item.image}" alt="${item.name}" loading="lazy">
+                        </div>
+                        <div class="card-content">
+                            <span class="card-location">📍 ${item.region}</span>
+                            <h3>${item.name}</h3>
+                            <p>${item.tagline}</p>
+                            
+                            <!-- Real Cost & Transport Logistics Breakdown -->
+                            <div class="logistics-box">
+                                <div class="logistics-row">
+                                    <span>👤 Person Entry:</span>
+                                    <span>${item.entryCost}</span>
+                                </div>
+                                <div class="logistics-row">
+                                    <span>🚗 Car Entry:</span>
+                                    <span>${item.carCost}</span>
+                                </div>
+                                <div class="logistics-row" style="border-top: 1px solid #e2e8f0; padding-top: 4px; margin-top: 2px;">
+                                    <span>🚌 Transport:</span>
+                                    <span style="font-weight: 500; font-size: 10px; max-width: 200px; text-align: right;">${item.transportTip}</span>
+                                </div>
+                            </div>
+
+                            <div class="highlights">
+                                ${highlightsHtml}
+                            </div>
+                            <div class="card-footer">
+                                <span>🛡️ ${item.source}</span>
+                                <span class="verified">Verified: ${item.verifiedDate}</span>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                }
+            });
+        }
+
+        function filterFeed() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const activeBtn = document.querySelector('.cat-btn.active');
+            const activeCategory = activeBtn ? activeBtn.id.replace('btn-', '') : 'all';
+            
+            let filtered = feedData.filter(item => {
+                if (item.type === 'Spotlight') return true;
+                let matchesQuery = item.name.toLowerCase().includes(query) || 
+                                   item.tagline.toLowerCase().includes(query) || 
+                                   item.region.toLowerCase().includes(query) ||
+                                   item.transportTip.toLowerCase().includes(query) ||
+                                   item.highlights.some(h => h.toLowerCase().includes(query));
+                let matchesCat = (activeCategory === 'all' || item.category === activeCategory);
+                return matchesQuery && matchesCat;
+            });
+            renderFeed(filtered);
+        }
+
+        function filterCategory(category) {
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(`btn-${category}`).classList.add('active');
+            filterFeed();
+        }
+
+        renderFeed(feedData);
+    </script>
+</body>
+</html>
